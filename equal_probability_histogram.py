@@ -1,9 +1,17 @@
 import numpy as np
 import matplotlib.pylab as plt
 
-def equal_probability_histogram(x, N_bins=10):
-    # compute some quantiles of the data to determine the bin edges
-    bin_edges = np.percentile(x, np.linspace(0, 100, N_bins+1))
+def equal_probability_histogram(x, N_bins=None, bin_edges=None):
+
+    if N_bins is not None:
+        if bin_edges is None:
+            # compute some quantiles of the data to determine the bin edges
+            bin_edges = np.percentile(x, np.linspace(0, 100, N_bins+1))
+        else:
+            raise ValueError("if the number of bins is specified, no bin edges must be given.")
+    elif bin_edges is not None:
+        if N_bins is not None:
+            raise ValueError("if the bin edges are given, no number of bins must be specified.")
 
     n, _ = np.histogram(x, bin_edges)
 
